@@ -13,16 +13,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const [ready, setReady] = useState(false)
   const queryClient = new QueryClient()
 
-  useEffect(() => {
-    setReady(true)
-  }, [])
+  useEffect(() => setReady(true), [])
 
   if (!ready) {
-    return (
-      <html lang="en">
-        <body className={inter.className}>Loading...</body>
-      </html>
-    )
+    return <html><body className={inter.className}>Loading...</body></html>
   }
 
   const config = (globalThis as any).wagmiConfig
@@ -30,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <title>Base Token dApp – BTK on Base</title>
+        <title>Base Token dApp – Send BTK on Base</title>
       </head>
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
