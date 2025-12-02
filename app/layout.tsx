@@ -1,29 +1,62 @@
 'use client'
+
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { config, WagmiProvider, QueryClient, QueryClientProvider } from './config'
 import { AppKitProvider } from '@reown/appkit/react'
-import { QueryClientReact } from './config'  // Assuming you export it
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { WagmiProvider } from 'wagmi'
+import { useState, useEffect } from 'react'
+
+// Dynamic import for config to avoid SSR issues with Reown/Wagmi
+async function getConfig() {
+  const { config } = await import('./config')
+  return config
+}
 
 const inter = Inter({ subsets: ['latin'] })
-const queryClient = new QueryClient()
+
+export const metadata: Metadata = {
+  title: 'Base Token dApp',
+  description: 'Transfer tokens on Base',
+}
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const [mounted, setMounted] = useState(false)
+  const [config, setConfig] = useState<ReturnType<typeof getConfig> | null>(null)
+  const [queryClient] = useState(() => new QueryClient())
+
+  useEffect(() => {
+    async function loadConfig() {
+      const cfg = await getConfig()
+      setConfig(cfg)
+      setMounted(true)
+    }
+    loadConfig()
+  }, [])
+
+  if (!mounted || !config) {
+    return (
+      <html lang="en">
+        <body className={inter.className}>
+          <div>Loading...</div>
+        </body>
+      </html>
+    )
+  }
+
   return (
     <html lang="en">
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
           <WagmiProvider config={config}>
-            <QueryClientReact client={queryClient}>
-              <AppKitProvider>
-                {children}
-              </AppKitProvider>
-            </QueryClientReact>
+            <AppKitProvider>
+              {children}
+            </AppKitProvider>
           </WagmiProvider>
         </QueryClientProvider>
       </body>
