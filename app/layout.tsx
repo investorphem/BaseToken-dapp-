@@ -11,7 +11,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false)
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient(
 
   useEffect(() => {
     setReady(true)
