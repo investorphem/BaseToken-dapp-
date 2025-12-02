@@ -5,7 +5,7 @@ import { useAppKit } from '@reown/appkit/react'
 import { parseEther } from 'viem'
 import { baseSepolia } from '@reown/appkit/networks'  // Or base for mainnet
 
-const TOKEN_CONTRACT_ADDRESS = 'YOUR_DEPLOYED_TOKEN_ADDRESS'  // e.g., '0x123...'
+const TOKEN_CONTRACT_ADDRESS = '0x8E48e0f617Ab8438382C380BF172a266E2a34d80'  // e.g., '0x123...'
 
 const ABI = [
   // Minimal ABI for balanceOf and transfer
