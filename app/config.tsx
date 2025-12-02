@@ -1,28 +1,27 @@
 // app/config.tsx
+'use client'
+
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { baseSepolia } from '@reown/appkit/networks'
-import { createConfig, http } from 'wagmi'
 
-// ←←← YOUR REOWN PROJECT ID HERE ←←←
-const projectId = 'YOUR_PROJECT_ID_REPLACE_ME'
+// ←←← REPLACE WITH YOUR REAL REOWN PROJECT ID ←←←
+const projectId = 'YOUR_PROJECT_ID_HERE'
 
 const metadata = {
   name: 'Base Token dApp',
-  description: 'Send BTK tokens on Base',
-  url: 'https://your-vercel-url.vercel.app', // will be replaced automatically
+  description: 'Send BTK tokens instantly on Base Chain',
+  url: 'https://your-app.vercel.app',
   icons: ['https://avatars.githubusercontent.com/u/131020027']
 }
 
-// This runs only on client – fixes porto/internal error completely
-if (typeof window !== 'undefined') {
+// This runs only in the browser → kills porto/internal + fixes types
+if (typeof window !== 'undefined' && !window.wagmiAdapter) {
   const adapter = new WagmiAdapter({
     projectId,
     networks: [baseSepolia],
     ssr: false
   })
-
-  const config = createConfig(adapter.wagmiConfig)
 
   createAppKit({
     adapters: [adapter],
@@ -32,6 +31,7 @@ if (typeof window !== 'undefined') {
     features: { analytics: true }
   })
 
-  // Export for WagmiProvider only
-  ;(globalThis as any).wagmiConfig = config
+  // Export the correct wagmi config directly from adapter
+  window.wagmiConfig = adapter.wagmiConfig
+  window.wagmiAdapter = adapter
 }
