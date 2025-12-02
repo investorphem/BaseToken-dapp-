@@ -5,8 +5,8 @@ import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { baseSepolia } from '@reown/appkit/networks'
 
-// ←←← REPLACE WITH YOUR REAL REOWN PROJECT ID ←←←
-const projectId = 'YOUR_PROJECT_ID_HERE'
+// ←←← PUT YOUR REAL REOWN PROJECT ID HERE ←←←
+const projectId = 'YOUR_REAL_PROJECT_ID'
 
 const metadata = {
   name: 'Base Token dApp',
@@ -15,8 +15,15 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/131020027']
 }
 
-// This runs only in the browser → kills porto/internal + fixes types
-if (typeof window !== 'undefined' && !window.wagmiAdapter) {
+// Declare window properties so TypeScript is happy
+declare global {
+  interface Window {
+    wagmiConfig?: any
+  }
+}
+
+// Run only in browser — completely eliminates porto/internal error
+if (typeof window !== 'undefined' && !window.wagmiConfig) {
   const adapter = new WagmiAdapter({
     projectId,
     networks: [baseSepolia],
@@ -31,7 +38,6 @@ if (typeof window !== 'undefined' && !window.wagmiAdapter) {
     features: { analytics: true }
   })
 
-  // Export the correct wagmi config directly from adapter
+  // This is the exact config WagmiProvider expects
   window.wagmiConfig = adapter.wagmiConfig
-  window.wagmiAdapter = adapter
 }
