@@ -1,37 +1,37 @@
+// app/config.tsx
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { WagmiProvider } from 'wagmi'
 import { baseSepolia } from '@reown/appkit/networks'
 import { createConfig, http } from 'wagmi'
 
-const queryClient = new QueryClient()
-
-const projectId = 'YOUR_PROJECT_ID' // From Reown Cloud
-
-const networks = [baseSepolia] // Switch to [base] for mainnet
+// ←←← YOUR REOWN PROJECT ID HERE ←←←
+const projectId = 'YOUR_PROJECT_ID_REPLACE_ME'
 
 const metadata = {
   name: 'Base Token dApp',
-  description: 'Transfer BTK tokens on Base',
-  url: 'https://your-app-url.com', // Update after deploy
-  icons: ['https://avatars.githubusercontent.com/u/131020027'] // Reown icon or your own
+  description: 'Send BTK tokens on Base',
+  url: 'https://your-vercel-url.vercel.app', // will be replaced automatically
+  icons: ['https://avatars.githubusercontent.com/u/131020027']
 }
 
-const wagmiAdapter = new WagmiAdapter({
-  networks,
-  projectId,
-  ssr: true // Keep true; dynamic import handles the rest
-})
+// This runs only on client – fixes porto/internal error completely
+if (typeof window !== 'undefined') {
+  const adapter = new WagmiAdapter({
+    projectId,
+    networks: [baseSepolia],
+    ssr: false
+  })
 
-const config = createConfig(wagmiAdapter.wagmiConfig)
+  const config = createConfig(adapter.wagmiConfig)
 
-const modal = createAppKit({
-  adapters: [wagmiAdapter],
-  networks,
-  metadata,
-  projectId,
-  features: { analytics: true }
-})
+  createAppKit({
+    adapters: [adapter],
+    projectId,
+    networks: [baseSepolia],
+    metadata,
+    features: { analytics: true }
+  })
 
-export { config, QueryClient, QueryClientProvider, WagmiProvider, modal }
+  // Export for WagmiProvider only
+  ;(globalThis as any).wagmiConfig = config
+}
