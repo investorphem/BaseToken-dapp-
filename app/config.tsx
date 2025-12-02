@@ -6,7 +6,7 @@ import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { baseSepolia } from '@reown/appkit/networks'
 
 // ←←← PUT YOUR REAL REOWN PROJECT ID HERE ←←←
-const projectId = 'YOUR_REAL_PROJECT_ID'
+const projectId = 'ae28066373c7ee52fc6eb7457bbe71ca'
 
 const metadata = {
   name: 'Base Token dApp',
