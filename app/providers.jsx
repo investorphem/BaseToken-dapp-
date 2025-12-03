@@ -2,46 +2,58 @@
 'use client'; 
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { WagmiProvider } from 'wagmi'
+import { WagmiProvider, createConfig, http } from 'wagmi' // Import createConfig and http
 import { useEffect, useState } from 'react'
-import { AppKitProvider } from '@reown/appkit/react'
-import { mainnet, base } from '@reown/appkit/networks' 
+import { mainnet, base } from 'wagmi/chains' // Import chains from wagmi/chains if available
 
-// --- Configuration Setup ---
+// Your AppKit library imports (adjust paths if needed)
+import { AppKitProvider } from '@reown/appkit/react'
+
+// 1. Define Project ID and Chains
 // Ensure NEXT_PUBLIC_PROJECT_ID is set in your Vercel environment variables
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID; 
-const networks = [mainnet, base];
-const queryClient = new QueryClient()
-// --- End Config Setup ---
+
+if (!projectId) {
+    throw new Error('NEXT_PUBLIC_PROJECT_ID is not defined');
+}
+
+const chains = [mainnet, base];
+const queryClient = new QueryClient();
+
+
+// 2. Create the wagmi config outside the component
+// This uses the official wagmi way to create a configuration object
+const wagmiConfig = createConfig({
+  chains: chains,
+  transports: {
+    // You need to define how to talk to the blockchain
+    [mainnet.id]: http(),
+    [base.id]: http(),
+  },
+  projectId, // Use your project ID here
+});
 
 
 export function WalletProviders({ children }) {
   const [ready, setReady] = useState(false)
 
+  // This ensures the component mounts only in the browser
   useEffect(() => setReady(true), [])
 
   if (!ready) {
     return (
         <div className="flex min-h-screen items-center justify-center">
-            Loading wallet...
+            Loading application...
         </div>
     );
   }
 
-  // FIXED: Using standard JavaScript check instead of TypeScript 'as any'
-  const config = typeof globalThis !== 'undefined' ? globalThis.wagmiConfig : null; 
-
-  if (!config) {
-      // You can handle this error better in your UI
-      console.error("Wagmi config was not initialized on globalThis.");
-      return <div>Error initializing wallet configuration. Please check environment variables and configuration script.</div>
-  }
-
+  // Use the pre-created wagmiConfig object
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Type error 'as any' handled by the provider library's prop types or by renaming file to .tsx */}
-      <WagmiProvider config={config}>
-        <AppKitProvider projectId={projectId} networks={networks}> 
+      <WagmiProvider config={wagmiConfig}>
+        {/* Pass the props to the AppKitProvider */}
+        <AppKitProvider projectId={projectId} networks={chains}> 
           {children}
         </AppKitProvider>
       </WagmiProvider>
