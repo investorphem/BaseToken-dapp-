@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useAccount, useReadContract, useWriteContract } from 'wagmi'
 import { useAppKit } from '@reown/appkit/react'
 import { parseEther } from 'viem'
-import { baseSepolia } from '@reown/appkit/networks'  // Or base for mainnet
+import { base } from '@reown/appkit/networks'  // Or base for mainnet
 
 const TOKEN_CONTRACT_ADDRESS = '0x8E48e0f617Ab8438382C380BF172a266E2a34d80'  // e.g., '0x123...'
 
