@@ -1,8 +1,10 @@
 'use client'
+
 import { useState } from 'react'
-import { useAccount, useReadContract, useWriteContract } from 'wagmi'
+// Import useChainId hook
+import { useAccount, useReadContract, useWriteContract, useChainId } from 'wagmi' 
 import { useAppKit } from '@reown/appkit/react'
-import { parseEther } from 'viem'
+// Removed unused import parseEther
 import { base } from '@reown/appkit/networks'  // Or base for mainnet
 
 const TOKEN_CONTRACT_ADDRESS = '0x8E48e0f617Ab8438382C380BF172a266E2a34d80'  // e.g., '0x123...'
@@ -27,7 +29,11 @@ const ABI = [
 
 export default function Home() {
   const { open } = useAppKit()
-  const { address, isConnected } = useAccount()
+  // address from useAccount is the connected account
+  const { address, isConnected } = useAccount() 
+  // Get the current chain ID
+  const chainId = useChainId();
+
   const [toAddress, setToAddress] = useState('')
   const [amount, setAmount] = useState('')
 
@@ -42,14 +48,17 @@ export default function Home() {
   const { writeContractAsync } = useWriteContract()
 
   const handleTransfer = async () => {
-    if (!toAddress || !amount) return
+    // Ensure all required fields (and connection details) are present
+    if (!toAddress || !amount || !address || !chainId) return 
     try {
       await writeContractAsync({
+        // FIX: Explicitly provide 'account' and 'chainId' for the transaction
+        account: address,
+        chainId: chainId, 
         address: TOKEN_CONTRACT_ADDRESS,
         abi: ABI,
         functionName: 'transfer',
         args: [toAddress as `0x${string}`, BigInt(amount + '000000000000000000')],  // Assuming 18 decimals
-        chainId: base.id
       })
       alert('Transfer successful!')
       setToAddress('')
@@ -65,7 +74,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
       <h1 className="text-4xl font-bold mb-8">Base Token dApp</h1>
-      
+
       {!isConnected ? (
         <button
           onClick={() => open()}
@@ -77,7 +86,7 @@ export default function Home() {
         <div className="text-center space-y-4">
           <p>Connected: {address?.slice(0, 6)}...{address?.slice(-4)}</p>
           <p>Balance: {formattedBalance} BTK</p>
-          
+
           <div className="space-y-2">
             <input
               type="text"
