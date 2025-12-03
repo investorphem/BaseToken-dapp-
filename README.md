@@ -1,6 +1,6 @@
 # Base Token dApp -- BTK Sender on Base Chain
 
-**Live dApp:** https://base-token-dapp.vercel.app\
+**Live dApp:** https://basetoken-mocha.vercel.app\
 **Chain:** Base (Ethereum L2) -- Mainnet ready (currently using Sepolia
 for testing)\
 **Token Contract:** 0x8E48e0f617Ab8438382C380BF172a266E2a34d80\
