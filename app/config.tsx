@@ -2,7 +2,7 @@
 
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
-import { baseSepolia } from '@reown/appkit/networks'
+import { base } from '@reown/appkit/networks'
 
 const projectId = 'ae28066373c7ee52fc6eb7457bbe71ca'   // ← replace with yours
 
