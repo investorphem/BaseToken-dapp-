@@ -8,8 +8,8 @@ import { useEffect, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
-// This one line fixes the false TypeScript error
-import { AppKitProvider } from '@reown/appkit/react' as any
+// This is the correct component – no props needed when createAppKit() was already called
+import { AppKit } from '@reown/appkit/react'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false)
@@ -17,19 +17,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   useEffect(() => setReady(true), [])
 
-  if (!ready) return <html><body className={inter.className}>Loading...</body></html>
+  if (!ready) {
+    return (
+      <html lang="en">
+        <body className={inter.className}>
+          <div className="flex min-h-screen items-center justify-center">
+            Loading wallet...
+          </div>
+        </body>
+      </html>
+    )
+  }
 
-  const config = (globalThis as any).wagmiConfig
+  const wagmiConfig = (globalThis as any).wagmiConfig
 
   return (
     <html lang="en">
       <head>
-        <title>Base Token dApp – Send BTK on Base</title>
+        <title>Base Token dApp – Send BTK on Base Chain</title>
+        <meta name="description" content="Connect any wallet & send BTK tokens instantly on Base L2 with Reown AppKit" />
       </head>
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
-          <WagmiProvider config={config}>
-            <AppKitProvider>{children}</AppKitProvider>
+          <WagmiProvider config={wagmiConfig}>
+            {/* This is the correct provider component – no props required */}
+            <AppKit>
+              {children}
+            </AppKit>
           </WagmiProvider>
         </QueryClientProvider>
       </body>
