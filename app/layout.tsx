@@ -2,7 +2,7 @@
 
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { WalletProviders } from './AppKitProviders' // Import the new component
+import { WalletProviders } from './Providers' // Import the new component
 
 const inter = Inter({ subsets: ['latin'] })
 
