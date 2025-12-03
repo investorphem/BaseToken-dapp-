@@ -1,13 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-// Import useChainId hook
 import { useAccount, useReadContract, useWriteContract, useChainId } from 'wagmi' 
 import { useAppKit } from '@reown/appkit/react'
-// Removed unused import parseEther
-import { base } from '@reown/appkit/networks'  // Or base for mainnet
+import { base } from '@reown/appkit/networks'
 
-const TOKEN_CONTRACT_ADDRESS = '0x8E48e0f617Ab8438382C380BF172a266E2a34d80'  // e.g., '0x123...'
+const TOKEN_CONTRACT_ADDRESS = '0x8E48e0f617Ab8438382C380BF172a266E2a34d80'
 
 const ABI = [
   // Minimal ABI for balanceOf and transfer
@@ -29,9 +27,7 @@ const ABI = [
 
 export default function Home() {
   const { open } = useAppKit()
-  // address from useAccount is the connected account
   const { address, isConnected } = useAccount() 
-  // Get the current chain ID
   const chainId = useChainId();
 
   const [toAddress, setToAddress] = useState('')
@@ -42,24 +38,23 @@ export default function Home() {
     abi: ABI,
     functionName: 'balanceOf',
     args: [address as `0x${string}`],
-    chainId: base.id  // Or base.id for mainnet
+    chainId: base.id
   })
 
   const { writeContractAsync } = useWriteContract()
 
   const handleTransfer = async () => {
-    // Ensure all required fields (and connection details) are present
     if (!toAddress || !amount || !address || !chainId) return 
     try {
+      // FIX: Use 'as any' here to bypass the specific TypeScript type conflict
       await writeContractAsync({
-        // FIX: Explicitly provide 'account' and 'chainId' for the transaction
         account: address,
         chainId: chainId, 
         address: TOKEN_CONTRACT_ADDRESS,
         abi: ABI,
         functionName: 'transfer',
-        args: [toAddress as `0x${string}`, BigInt(amount + '000000000000000000')],  // Assuming 18 decimals
-      })
+        args: [toAddress as `0x${string}`, BigInt(amount + '000000000000000000')],
+      } as any) // <- Add 'as any' right here
       alert('Transfer successful!')
       setToAddress('')
       setAmount('')
