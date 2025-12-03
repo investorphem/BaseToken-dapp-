@@ -22,14 +22,14 @@ declare global {
 if (typeof window !== 'undefined' && !window.wagmiConfig) {
   const adapter = new WagmiAdapter({
     projectId,
-    networks: [baseSepolia],
+    networks: [base],
     ssr: false
   })
 
   createAppKit({
     adapters: [adapter],
     projectId,
-    networks: [baseSepolia],
+    networks: [base],
     metadata,
     features: { analytics: true }
   })
