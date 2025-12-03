@@ -36,7 +36,7 @@ export default function Home() {
     abi: ABI,
     functionName: 'balanceOf',
     args: [address as `0x${string}`],
-    chainId: baseSepolia.id  // Or base.id for mainnet
+    chainId: base.id  // Or base.id for mainnet
   })
 
   const { writeContractAsync } = useWriteContract()
@@ -49,7 +49,7 @@ export default function Home() {
         abi: ABI,
         functionName: 'transfer',
         args: [toAddress as `0x${string}`, BigInt(amount + '000000000000000000')],  // Assuming 18 decimals
-        chainId: baseSepolia.id
+        chainId: base.id
       })
       alert('Transfer successful!')
       setToAddress('')
