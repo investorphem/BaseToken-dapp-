@@ -34,13 +34,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const config = (globalThis as any).wagmiConfig; 
 
   if (!process.env.NEXT_PUBLIC_PROJECT_ID) {
-    // This error will be caught during the build process if the variable is missing in Vercel settings
     throw new Error('NEXT_PUBLIC_PROJECT_ID is not defined')
   }
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
   
-  // --- FIX: Remove the explicit 'AppKitNetwork' type import and usage ---
-  // TypeScript should now correctly infer the type of mainnet and base from the import
+  // The original array definition
   const networks = [mainnet, base];
 
   return (
@@ -52,8 +50,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
           <WagmiProvider config={config}>
-            {/* The props are passed correctly, relying on inferred types */}
-            <AppKitProvider projectId={projectId} networks={networks}>
+            {/* FIX: Use an inline type assertion when passing the prop */}
+            <AppKitProvider 
+              projectId={projectId} 
+              networks={networks as any} // Assert the networks array type here
+            >
               {children}
             </AppKitProvider>
           </WagmiProvider>
