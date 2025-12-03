@@ -5,13 +5,13 @@ import './globals.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WagmiProvider } from 'wagmi'
 import { useEffect, useState } from 'react'
-// The required 'networks' type is likely needed from the AppKit package
-import { mainnet, base } from '@reown/appkit/networks' 
 
 const inter = Inter({ subsets: ['latin'] })
 
-// The AppKitProvider *does* require props for correct configuration with TypeScript
-import { AppKitProvider } from '@reown/appkit/react'
+// The required types/components from AppKit
+import { AppKitProvider, AppKitNetwork } from '@reown/appkit/react'
+// Assuming these are the correct imports for your chain definitions from the package
+import { mainnet, base } from '@reown/appkit/networks' 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false)
@@ -31,20 +31,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     )
   }
 
-  // This config was created in config.tsx
-  // We use type assertion to access the global variable safely
   const config = (globalThis as any).wagmiConfig; 
 
-  // --- FIX: Define Project ID and Networks ---
-  // You must define your WalletConnect project ID as an environment variable
-  // e.g., in a .env.local file: NEXT_PUBLIC_PROJECT_ID="YOUR_PROJECT_ID"
   if (!process.env.NEXT_PUBLIC_PROJECT_ID) {
     throw new Error('NEXT_PUBLIC_PROJECT_ID is not defined')
   }
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
   
-  // You might be able to get networks from the config object itself, but this is explicit
-  const networks = [mainnet, base]; // Adjust this array based on the chains you support
+  // --- FIX: Explicitly type the networks array as AppKitNetwork[] ---
+  // This tells TypeScript that the imported chain objects conform to the expected interface.
+  const networks: AppKitNetwork[] = [mainnet, base];
 
   return (
     <html lang="en">
@@ -55,7 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
           <WagmiProvider config={config}>
-            {/* FIX: Pass the required props to AppKitProvider */}
+            {/* The props are now correctly typed and passed */}
             <AppKitProvider projectId={projectId} networks={networks}>
               {children}
             </AppKitProvider>
