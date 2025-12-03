@@ -8,8 +8,8 @@ import { useEffect, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
-// The required types/components from AppKit
-import { AppKitProvider, AppKitNetwork } from '@reown/appkit/react'
+// The AppKitProvider component itself
+import { AppKitProvider } from '@reown/appkit/react'
 // Assuming these are the correct imports for your chain definitions from the package
 import { mainnet, base } from '@reown/appkit/networks' 
 
@@ -34,13 +34,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   const config = (globalThis as any).wagmiConfig; 
 
   if (!process.env.NEXT_PUBLIC_PROJECT_ID) {
+    // This error will be caught during the build process if the variable is missing in Vercel settings
     throw new Error('NEXT_PUBLIC_PROJECT_ID is not defined')
   }
   const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
   
-  // --- FIX: Explicitly type the networks array as AppKitNetwork[] ---
-  // This tells TypeScript that the imported chain objects conform to the expected interface.
-  const networks: AppKitNetwork[] = [mainnet, base];
+  // --- FIX: Remove the explicit 'AppKitNetwork' type import and usage ---
+  // TypeScript should now correctly infer the type of mainnet and base from the import
+  const networks = [mainnet, base];
 
   return (
     <html lang="en">
@@ -51,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
           <WagmiProvider config={config}>
-            {/* The props are now correctly typed and passed */}
+            {/* The props are passed correctly, relying on inferred types */}
             <AppKitProvider projectId={projectId} networks={networks}>
               {children}
             </AppKitProvider>
