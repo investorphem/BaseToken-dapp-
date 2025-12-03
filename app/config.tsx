@@ -1,4 +1,4 @@
-'use client';
+'use client'; // This is the required fix for the "Application error"
 
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
@@ -9,8 +9,8 @@ const projectId = 'ae28066373c7ee52fc6eb7457bbe71ca'   // ← replace with yours
 const metadata = {
   name: 'Base Token dApp',
   description: 'Send BTK tokens instantly on Base Chain',
-  url: 'https://basetoken-mocha.vercel.app',
-  icons: ['https://avatars.githubusercontent.com/u/131020027']
+  url: 'https://your-app.vercel.app',
+  icons: ['avatars.githubusercontent.com']
 }
 
 declare global {
