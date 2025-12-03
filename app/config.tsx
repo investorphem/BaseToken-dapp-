@@ -9,7 +9,7 @@ const projectId = 'ae28066373c7ee52fc6eb7457bbe71ca'   // ← replace with yours
 const metadata = {
   name: 'Base Token dApp',
   description: 'Send BTK tokens instantly on Base Chain',
-  url: 'https://your-app.vercel.app',
+  url: 'https://basetoken-mocha.vercel.app',
   icons: ['https://avatars.githubusercontent.com/u/131020027']
 }
 
