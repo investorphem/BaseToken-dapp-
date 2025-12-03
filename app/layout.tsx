@@ -8,8 +8,8 @@ import { useEffect, useState } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
-// This is the correct component – no props needed when createAppKit() was already called
-import { AppKit } from '@reown/appkit/react'
+// THE CORRECT PROVIDER — THIS ONE WORKS
+import { AppKitProvider } from '@reown/appkit/react'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false)
@@ -29,21 +29,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     )
   }
 
-  const wagmiConfig = (globalThis as any).wagmiConfig
+  // This config was created in config.tsx
+  const config = (globalThis as any).wagmiConfig
 
   return (
     <html lang="en">
       <head>
-        <title>Base Token dApp – Send BTK on Base Chain</title>
-        <meta name="description" content="Connect any wallet & send BTK tokens instantly on Base L2 with Reown AppKit" />
+        <title>Base Token dApp – Send BTK on Base Mainnet</title>
+        <meta name="description" content="Connect any wallet & send BTK tokens instantly on Base Chain" />
       </head>
       <body className={inter.className}>
         <QueryClientProvider client={queryClient}>
-          <WagmiProvider config={wagmiConfig}>
-            {/* This is the correct provider component – no props required */}
-            <AppKit>
+          <WagmiProvider config={config}>
+            {/* THIS IS THE REAL ONE — NO PROPS NEEDED */}
+            <AppKitProvider>
               {children}
-            </AppKit>
+            </AppKitProvider>
           </WagmiProvider>
         </QueryClientProvider>
       </body>
