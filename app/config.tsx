@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
