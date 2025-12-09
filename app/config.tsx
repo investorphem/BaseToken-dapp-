@@ -1,14 +1,14 @@
-'use client'; // This is the reiredfx for the "Application error"
+'use client'; // This is the required fix for the "Application error"
 
-import { createAppKit } fro '@reown/appkit/react'
-import { WagmiAdapter } from '@reown/appkit-adapteragmi'
-import { base } from '@reown/apkit/networks'
+import { createAppKit } from '@reown/appkit/react'
+import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
+import { base } from '@reown/appkit/networks'
 
-const projectId = 'ae28066373c7e52fc677be71ca'   //← replace with yours
+const projectId = 'ae28066373c7ee52fc6eb7457bbe71ca'   // ← replace with yours
 
 const metadata = {
   name: 'Base Token dApp',
-  desription: 'Send BK kensistantly on Base Chain',
+  description: 'Send BTK tokens instantly on Base Chain',
   url: 'https://your-app.vercel.app',
   icons: ['avatars.githubusercontent.com']
 }
