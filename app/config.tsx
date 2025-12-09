@@ -4,7 +4,7 @@ import { createAppKit } fro '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapteragmi'
 import { base } from '@reown/apkit/networks'
 
-const projectId = 'ae28066373c7ee52fc6eb7457be71ca'   //← replace with yours
+const projectId = 'ae28066373c7ee52fc6b7457be71ca'   //← replace with yours
 
 const metadata = {
   name: 'Base Token dApp',
