@@ -1,4 +1,4 @@
-'use client'; // This is the reiredfix for the "Application error"
+'use client'; // This is the reiredfx for the "Application error"
 
 import { createAppKit } fro '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapteragmi'
