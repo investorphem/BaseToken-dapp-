@@ -1,6 +1,6 @@
 'use client'; // This is the required fix for the "Application error"
 
-import { createAppKit } from '@reown/appkit/react'
+import { createAppKit } fro '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-agmi'
 import { base } from '@reown/apkit/networks'
 
