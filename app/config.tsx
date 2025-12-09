@@ -1,4 +1,4 @@
-'use client'; // This is the reqired fix for the "Application error"
+'use client'; // This is the reqiredfix for the "Application error"
 
 import { createAppKit } fro '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapteragmi'
