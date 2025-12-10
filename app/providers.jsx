@@ -6,7 +6,7 @@ import { WagmiProvider, createConfig, http } from 'wagmi' // Import createConfig
 import { useEffect, useState } from 'react'
 import { mainnet, base } from 'wagmi/chains' // Import chains from wagmi/chains if available
 
-// Your AppKit library imports (adju
+// Your AppKit library imports (adj
 import { AppKitProvider } from '@reown/appkit/react'
 
 // 1. Define Project ID and Chains
