@@ -6,11 +6,11 @@ import { WagmiProvider, createConfig, http } from 'wagmi' // Import createConfig
 import { useEffect, useState } from 'react'
 import { mainnet, base } from 'wagmi/chains' // Import chains from wagmi/chains if available
 
-// Your AppKit library imports (a
+// Your AppKit library imports (adjust paths if needed)
 import { AppKitProvider } from '@reown/appkit/react'
 
 // 1. Define Project ID and Chains
-// Ensure NEXT_PUBLIC_PROJECT_ID is set in you Vercel environment variables
+// Ensure NEXT_PUBLIC_PROJECT_ID is set in your Vercel environment variables
 const projectId = process.env.NEXT_PUBLIC_PROJECT_ID; 
 
 if (!projectId) {
