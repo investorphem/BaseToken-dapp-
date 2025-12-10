@@ -1,4 +1,4 @@
-// app/layout.js (NO 'use client' nee
+// app/layout.js (NO 'use client' ne
 
 import { Inter } from 'next/font/google'
 import './globals.css'
