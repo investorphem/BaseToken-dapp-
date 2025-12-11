@@ -1,4 +1,4 @@
-'use client'; // This is the re
+'use client'; // This is the r
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { base } from '@reown/appkit/networks'
