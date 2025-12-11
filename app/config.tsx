@@ -1,4 +1,4 @@
-'use client'; // This is the required fi
+'use client'; // This is the required f
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { base } from '@reown/appkit/networks'
