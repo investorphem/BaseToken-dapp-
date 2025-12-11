@@ -1,4 +1,4 @@
-'use client'; // This is the requi
+'use client'; // This is the requ
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { base } from '@reown/appkit/networks'
