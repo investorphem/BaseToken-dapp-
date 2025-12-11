@@ -1,4 +1,4 @@
-'use client'; // This is the required fix for the "Applicati
+'use client'; // This is the required fix for the "Applicat
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { base } from '@reown/appkit/networks'
